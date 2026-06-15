@@ -19,8 +19,7 @@ app.post('/convert',async(req:Request,res:Response)=>{
         const audioData = await text2wav(req.body.text,{voice:req.body.voice})
         return res.status(200).send(audioData)
     } catch (error) {
-        console.log(error)
-        res.status(500).send('Error converting text to speech')
+        return res.status(500).send('Error converting text to speech')
     }
 })
 app.listen(8080)
