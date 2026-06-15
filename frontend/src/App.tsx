@@ -63,7 +63,6 @@ export default function App(){
   const [gender,setGender] = useState<'Male'|'Female'>("Male")
   async function convertToWav(){
     setConverting(true)
-    console.log({ text: text, voice:`${languageExamples[language][gender]}` })
     try{
       const res = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/convert`,
