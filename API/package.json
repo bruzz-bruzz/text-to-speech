@@ -36,6 +36,7 @@
     "debug": "^4.4.3",
     "depd": "^2.0.0",
     "dunder-proto": "^1.0.1",
+    "edge-tts-client": "^1.0.2",
     "ee-first": "^1.1.1",
     "encodeurl": "^2.0.0",
     "es-define-property": "^1.0.1",

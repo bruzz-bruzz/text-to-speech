@@ -11,53 +11,53 @@ export default function App(){
   const [languageExamples,setLanguageExamples] = useState<{[key:string]:{text:string,Male:string,Female:string}}>({
   'en': {
     text: 'Hello, how are you?',
-    Male: 'en-us+m3',
-    Female: 'en-us+Annie'
+    Male: 'en-US-GuyNeural',
+    Female: 'en-US-JennyNeural'
   },
   'es': {
     text: 'Hola, ¿cómo estás?',
-    Male: 'es-419+m3',
-    Female: 'es-419+f2'
+    Male: 'es-ES-AlvaroNeural',
+    Female: 'es-ES-ElviraNeural'
   },
   'zh': {
     text: '你好，你怎么样？',
-    Male: 'zh+m3',
-    Female: 'zh+f2'
+    Male: 'zh-CN-YunhaoNeural',
+    Female: 'zh-CN-XiaoxiaoNeural'
   },
   'fr': {
     text: 'Bonjour, comment ça va?',
-    Male: 'fr+m3',
-    Female: 'fr+f2'
+    Male: 'fr-FR-HenriNeural',
+    Female: 'fr-FR-DeniseNeural'
   },
   'de': {
     text: 'Hallo, wie geht es dir?',
-    Male: 'de+m3',
-    Female: 'de+f2'
+    Male: 'de-DE-ConradNeural',
+    Female: 'de-DE-KatjaNeural'
   },
   'ja': {
     text: 'こんにちは、お元気ですか？',
-    Male: 'ja+m3',
-    Female: 'ja+f4'
+    Male: 'ja-JP-KeitaNeural',
+    Female: 'ja-JP-NanamiNeural'
   },
   'ko': {
     text: '안녕하세요, 어떻게 지내세요?',
-    Male: 'ko+m3',
-    Female: 'ko+f2'
+    Male: 'ko-KR-InJoonNeural',
+    Female: 'ko-KR-SunHiNeural'
   },
   'it': {
     text: 'Ciao, come stai?',
-    Male: 'it+m3',
-    Female: 'it+f2'
+    Male: 'it-IT-LucaNeural',
+    Female: 'it-IT-ElsaNeural'
   },
   'pt': {
     text: 'Olá, como você está?',
-    Male: 'pt-br+m3',
-    Female: 'pt-br+f2'
+    Male: 'pt-BR-AntonioNeural',
+    Female: 'pt-BR-FranciscaNeural'
   },
   'ru': {
     text: 'Привет, как дела?',
-    Male: 'ru+m3',
-    Female: 'ru+f2'
+    Male: 'ru-RU-DmitryNeural',
+    Female: 'ru-RU-SvetlanaNeural'
   }
   })
   const [gender,setGender] = useState<'Male'|'Female'>("Male")
@@ -70,7 +70,8 @@ export default function App(){
       { responseType: 'arraybuffer' }
     )
     const audioData = res.data
-    const blob = new Blob([audioData], { type: 'audio/wav' })
+    console.log(res.data)
+    const blob = new Blob([audioData], { type: 'audio/mpeg' })
     const url = URL.createObjectURL(blob)
     setAudio((audio:any) => {
       try {
@@ -134,10 +135,10 @@ export default function App(){
         {converting === false && audio !== "" && (
           <div className='flex flex-col items-center gap-4 p-2 justify-center'>
           <audio controls>
-            <source src={audio} type='audio/wav'></source>
+            <source src={audio} type='audio/mp3'></source>
           </audio>
           <button className='p-2 bg-blue-500 text-white rounded-md' onClick={() => setDownloaded(true)}>
-            <a href={audio} download>{downloaded === false ? 'Download as .wav file' : 'Downloaded'}</a>
+            <a href={audio} download>{downloaded === false ? 'Download as .mp3 file' : 'Downloaded'}</a>
           </button>
           </div>
         )}
