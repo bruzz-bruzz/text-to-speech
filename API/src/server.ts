@@ -11,7 +11,7 @@ const rateLimiter = rateLimit({
     message:"Too many requests. Try again later."
 })
 const app = express()
-app.use('trust proxy',1)
+app.set('trust proxy',1)
 app.use(rateLimiter)
 app.use(cors())
 app.use(helmet())
