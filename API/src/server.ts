@@ -39,6 +39,8 @@ app.post("/convert",[
     audioStream.on("error",()=>{
         return res.status(500)
     })
-    } catch(e){}
+    } catch(e){
+        return
+    }
 })
 app.listen(8080)
