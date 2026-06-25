@@ -145,7 +145,7 @@ export default function App(){
             <source src={audio} type='audio/webm'></source>
           </audio>
           <button className='p-2 bg-blue-500 text-white rounded-md' onClick={() => setDownloaded(true)}>
-            <a href={audio} download>{downloaded === false ? 'Download as .webm file' : 'Downloaded'}</a>
+            <a href={audio} download='audio.webm'>{downloaded === false ? 'Download as .webm file' : 'Downloaded'}</a>
           </button>
           </div>
         )}
