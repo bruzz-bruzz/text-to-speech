@@ -134,19 +134,25 @@ export default function App(){
           setText(e.target.value)
           setDownloaded(false)
           setAudio("")
-        }} className='border border-gray-300 rounded-md p-2 w-9/10 resize-none'></textarea>
+        }} className='border border-gray-300 rounded-md p-3 w-full resize-none min-h-[120px]'></textarea>
         <p>Words: {text.split(' ').length}</p>
-        <button className='p-2 bg-blue-500 text-white rounded-md' onClick={convertToWav} disabled={converting}>
+        <button className='px-4 py-3 bg-blue-600 text-white rounded-lg shadow-sm hover:bg-blue-700 transition' onClick={convertToWav} disabled={converting}>
           {converting ? 'Converting...' : 'Convert to speech'}
         </button>
         {converting === false && audio !== "" && (
-          <div className='flex flex-col items-center gap-4 p-2 justify-center'>
-          <audio controls className='w-full max-w-md mx-auto my-4 bg-slate-100 dark:bg-slate-800 rounded-full shadow-lg border border-slate-300 p-2 outline-none focus:ring-2 focus:ring-blue-500'>
-            <source src={audio} type='audio/webm'></source>
-          </audio>
-          <button className='p-2 bg-blue-500 text-white rounded-md' onClick={() => setDownloaded(true)}>
-            <a href={audio} download='audio.webm'>{downloaded === false ? 'Download as .webm file' : 'Downloaded'}</a>
-          </button>
+          <div className='flex flex-col items-center gap-3 p-2 w-full max-w-xl'>
+            <audio controls className='w-full rounded-xl bg-slate-100 shadow-sm border border-slate-300'>
+              <source src={audio} type='audio/webm' />
+              Your browser does not support the audio element.
+            </audio>
+            <a
+              href={audio}
+              download='tts.webm'
+              onClick={() => setDownloaded(true)}
+              className='inline-flex items-center justify-center px-4 py-3 bg-blue-600 text-white rounded-lg shadow-sm hover:bg-blue-700 transition w-full max-w-xs text-center'
+            >
+              {downloaded ? 'Downloaded' : 'Download .webm'}
+            </a>
           </div>
         )}
       </div>
