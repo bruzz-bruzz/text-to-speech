@@ -25,7 +25,8 @@ app.post("/convert",[
     if(!errs.isEmpty()){
         return res.status(400)
     }
-    const tts = new MsEdgeTTS()
+    try{
+        const tts = new MsEdgeTTS()
     await tts.setMetadata(req.body.voice,OUTPUT_FORMAT.WEBM_24KHZ_16BIT_MONO_OPUS)
     const {audioStream} = tts.toStream(req.body.text)
     const audioChunks:any[] = []
@@ -38,5 +39,6 @@ app.post("/convert",[
     audioStream.on("error",()=>{
         return res.status(500)
     })
+    } catch(e){}
 })
 app.listen(8080)
