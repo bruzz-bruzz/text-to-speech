@@ -1,10 +1,12 @@
 import './App.css'
 import {useState,useEffect} from 'react'
 import axios from 'axios'
+import Toast from './Toast'
 import Github from './Github'
 export default function App(){
   const [audio,setAudio] = useState<any>("")
   const [text,setText] = useState<string>('Hello, how are you?')
+  const [toast,setToast] = useState<{msg:string,ok:boolean}>({msg:"",ok:false})
   const [language,setLanguage] = useState<string>("en")
   const [converting,setConverting] = useState<boolean>(false)
   const [downloaded,setDownloaded] = useState<boolean>(false)
@@ -21,7 +23,7 @@ export default function App(){
   },
   'zh': {
     text: '你好，你怎么样？',
-    Male: 'zh-CN-YunhaoNeural',
+    Male: 'zh-CN-YunjianNeural',
     Female: 'zh-CN-XiaoxiaoNeural'
   },
   'fr': {
@@ -31,7 +33,7 @@ export default function App(){
   },
   'de': {
     text: 'Hallo, wie geht es dir?',
-    Male: 'de-DE-ConradNeural',
+    Male: 'de-DE-KillianNeural',
     Female: 'de-DE-KatjaNeural'
   },
   'ja': {
@@ -46,7 +48,7 @@ export default function App(){
   },
   'it': {
     text: 'Ciao, come stai?',
-    Male: 'it-IT-LucaNeural',
+    Male: 'it-IT-DiegoNeural',
     Female: 'it-IT-ElsaNeural'
   },
   'pt': {
@@ -61,17 +63,22 @@ export default function App(){
   }
   })
   const [gender,setGender] = useState<'Male'|'Female'>("Male")
+  function clearToast(){
+    setTimeout(()=>{
+      setToast({msg:"",ok:false})
+    },3000)
+  }
   async function convertToWav(){
+    console.log(text,languageExamples[language][gender],language,gender)
     setConverting(true)
     try{
       const res = await axios.post(
       `${import.meta.env.VITE_BACKEND_URL}/convert`,
       { text: text, voice:`${languageExamples[language][gender]}`},
-      { responseType: 'arraybuffer' }
+      {responseType:"arraybuffer"}
     )
-    const audioData = res.data
     console.log(res.data)
-    const blob = new Blob([audioData], { type: 'audio/mpeg' })
+    const blob = new Blob([res.data], { type: 'audio/webm' })
     const url = URL.createObjectURL(blob)
     setAudio((audio:any) => {
       try {
@@ -79,8 +86,10 @@ export default function App(){
       } catch (e) {}
       return url
     })
+    setToast({msg:"TTS done.",ok:true})
     setConverting(false)
-    } catch(e){}
+    } catch(e){setToast({msg:"An error occured.",ok:false})}
+    clearToast()
   }
   useEffect(()=>{
     setLanguageExamples(languageExamples)
@@ -134,13 +143,18 @@ export default function App(){
         </button>
         {converting === false && audio !== "" && (
           <div className='flex flex-col items-center gap-4 p-2 justify-center'>
-          <audio controls>
-            <source src={audio} type='audio/mp3'></source>
+          <audio controls className='w-full max-w-md mx-auto my-4 bg-slate-100 dark:bg-slate-800 rounded-full shadow-lg border border-slate-300 p-2 outline-none focus:ring-2 focus:ring-blue-500'>
+            <source src={audio} type='audio/webm'></source>
           </audio>
           <button className='p-2 bg-blue-500 text-white rounded-md' onClick={() => setDownloaded(true)}>
-            <a href={audio} download>{downloaded === false ? 'Download as .mp3 file' : 'Downloaded'}</a>
+            <a href={audio} download>{downloaded === false ? 'Download as .webm file' : 'Downloaded'}</a>
           </button>
           </div>
+        )}
+      </div>
+      <div>
+        {toast.msg.length > 0 && (
+          <Toast msg={toast.msg} ok={toast.ok}/>
         )}
       </div>
       <Github repo="text-to-speech" />
