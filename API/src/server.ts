@@ -6,10 +6,11 @@ import {validationResult,body} from 'express-validator'
 import {MsEdgeTTS,OUTPUT_FORMAT} from 'msedge-tts'
 const rateLimiter = rateLimit({
     windowMs: 60 * 1000,
-    max: 10
+    max: 10,
+    legacyHeaders:false,
+    message:"Too many requests. Try again later."
 })
 const app = express()
-app.set('trust proxy', 1)
 app.use(rateLimiter)
 app.use(cors())
 app.use(helmet())
