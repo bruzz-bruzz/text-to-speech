@@ -69,7 +69,6 @@ export default function App(){
     },3000)
   }
   async function convertToWav(){
-    console.log(text,languageExamples[language][gender],language,gender)
     setConverting(true)
     try{
       const res = await axios.post(
@@ -77,7 +76,6 @@ export default function App(){
       { text: text, voice:`${languageExamples[language][gender]}`},
       {responseType:"arraybuffer"}
     )
-    console.log(res.data)
     const blob = new Blob([res.data], { type: 'audio/webm' })
     const url = URL.createObjectURL(blob)
     setAudio((audio:any) => {
