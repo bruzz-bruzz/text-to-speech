@@ -12,6 +12,7 @@ const rateLimiter = rateLimit({
 })
 const app = express()
 app.set('trust proxy', true)
+app.use(rateLimiter)
 app.use(cors())
 app.use(helmet())
 app.use(express.json())
